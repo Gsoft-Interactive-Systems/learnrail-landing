@@ -129,7 +129,7 @@ async function loadPricingPlans() {
     if (!freePlanCard || !pricingCards) return;
 
     try {
-        const response = await fetch('https://app.learnrail.org/api/plans');
+        const response = await fetch('https://api.learnrail.org/api/subscription-plans');
         const result = await response.json();
 
         if (result.success && result.data && result.data.length > 0) {
@@ -165,15 +165,21 @@ async function loadPricingPlans() {
     }
 }
 
-// Select best plans to display (max 3)
+// Select best plans to display (max 2, since we already show free)
 function selectDisplayPlans(plans) {
     if (plans.length <= 2) return plans;
 
+    // Convert duration_days to approximate months for comparison
+    const getDurationMonths = (plan) => {
+        const days = plan.duration_days || 30;
+        return Math.round(days / 30);
+    };
+
     // Try to get: one quarterly/monthly, one biannual, one annual
-    const monthly = plans.find(p => p.duration_months === 1);
-    const quarterly = plans.find(p => p.duration_months === 3);
-    const biannual = plans.find(p => p.duration_months === 6);
-    const annual = plans.find(p => p.duration_months === 12);
+    const monthly = plans.find(p => getDurationMonths(p) === 1);
+    const quarterly = plans.find(p => getDurationMonths(p) === 3);
+    const biannual = plans.find(p => getDurationMonths(p) === 6);
+    const annual = plans.find(p => getDurationMonths(p) === 12);
     const popular = plans.find(p => p.is_popular);
 
     // Prioritize popular plan and mix of durations
@@ -202,7 +208,7 @@ function selectDisplayPlans(plans) {
 
 // Create a pricing card HTML
 function createPlanCard(plan, isFeatured = false) {
-    const period = getPeriodText(plan.duration_months);
+    const period = getPeriodText(plan.duration_days);
     const savings = plan.original_price ? Math.round((1 - plan.price / plan.original_price) * 100) : 0;
 
     let featuresHtml = '';
@@ -237,8 +243,10 @@ function createPlanCard(plan, isFeatured = false) {
     `;
 }
 
-// Get period text from duration months
-function getPeriodText(months) {
+// Get period text from duration days
+function getPeriodText(days) {
+    if (!days) return 'month';
+    const months = Math.round(days / 30);
     switch(months) {
         case 1: return 'month';
         case 3: return '3 months';
