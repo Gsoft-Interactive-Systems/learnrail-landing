@@ -458,9 +458,10 @@ body {
 .pricing-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    max-width: 1000px;
+    gap: 24px;
+    max-width: 1100px;
     margin: 0 auto;
+    align-items: start;
 }
 
 .pricing-card {
@@ -470,6 +471,13 @@ body {
     border-radius: var(--radius-lg);
     border: 2px solid var(--gray-200);
     transition: var(--transition);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card .pricing-features {
+    flex: 1;
 }
 
 .pricing-card:hover {
@@ -478,7 +486,7 @@ body {
 
 .pricing-card.featured {
     border-color: var(--primary);
-    transform: scale(1.05);
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.15);
 }
 
 .popular-badge {
@@ -777,10 +785,6 @@ body {
     .pricing-cards {
         grid-template-columns: 1fr;
         max-width: 400px;
-    }
-
-    .pricing-card.featured {
-        transform: none;
     }
 
     .testimonials-grid {

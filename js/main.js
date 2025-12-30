@@ -140,11 +140,13 @@ async function loadPricingPlans() {
                 return a.price - b.price;
             });
 
-            // Take up to 2 plans to display (we already have the free plan)
-            const displayPlans = selectDisplayPlans(plans);
+            // Take plans to display (we already have the free plan, so show up to 2 more for 3 total)
+            const displayPlans = plans.slice(0, 2);
 
-            displayPlans.forEach((plan, index) => {
-                const cardHtml = createPlanCard(plan, plan.is_popular || (index === 0 && displayPlans.length > 1));
+            // Insert plans in reverse order so they appear correctly (afterend inserts before previous)
+            displayPlans.slice().reverse().forEach((plan, index) => {
+                const isFeatured = plan.is_popular || (displayPlans.length - 1 - index === 0 && displayPlans.length > 1);
+                const cardHtml = createPlanCard(plan, isFeatured);
                 freePlanCard.insertAdjacentHTML('afterend', cardHtml);
             });
 
@@ -211,6 +213,12 @@ function createPlanCard(plan, isFeatured = false) {
     const period = getPeriodText(plan.duration_days);
     const savings = plan.original_price ? Math.round((1 - plan.price / plan.original_price) * 100) : 0;
 
+    // Handle currency - default to NGN/N if not provided
+    let currencySymbol = 'N';
+    if (plan.currency) {
+        currencySymbol = plan.currency === 'NGN' ? 'N' : (plan.currency === 'USD' ? '$' : plan.currency);
+    }
+
     let featuresHtml = '';
     if (plan.features && plan.features.length > 0) {
         plan.features.forEach(feature => {
@@ -227,7 +235,7 @@ function createPlanCard(plan, isFeatured = false) {
             <div class="pricing-header">
                 <h3>${escapeHtml(plan.name)}</h3>
                 <div class="price">
-                    <span class="currency">${plan.currency === 'NGN' ? 'N' : plan.currency}</span>
+                    <span class="currency">${currencySymbol}</span>
                     <span class="amount">${formatNumber(plan.price)}</span>
                     <span class="period">/${period}</span>
                 </div>
