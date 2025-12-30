@@ -203,12 +203,13 @@
                 <h2>Choose your plan</h2>
                 <p>Start free and upgrade when you're ready. No credit card required.</p>
             </div>
-            <div class="pricing-cards">
-                <div class="pricing-card">
+            <div class="pricing-cards" id="pricing-cards">
+                <!-- Free Plan (always shown) -->
+                <div class="pricing-card" id="free-plan-card">
                     <div class="pricing-header">
                         <h3>Free</h3>
                         <div class="price">
-                            <span class="currency">$</span>
+                            <span class="currency">N</span>
                             <span class="amount">0</span>
                             <span class="period">/month</span>
                         </div>
@@ -223,47 +224,7 @@
                     </ul>
                     <a href="https://app.learnrail.org" class="btn btn-outline btn-block">Get Started</a>
                 </div>
-                <div class="pricing-card featured">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="pricing-header">
-                        <h3>Quarterly</h3>
-                        <div class="price">
-                            <span class="currency">N</span>
-                            <span class="amount">12,000</span>
-                            <span class="period">/3 months</span>
-                        </div>
-                        <span class="savings">Save 20%</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> All courses included</li>
-                        <li><i class="fas fa-check"></i> Advanced AI tutor</li>
-                        <li><i class="fas fa-check"></i> Verified certificates</li>
-                        <li><i class="fas fa-check"></i> Goal tracking</li>
-                        <li><i class="fas fa-check"></i> Progress analytics</li>
-                        <li class="disabled"><i class="fas fa-times"></i> Accountability partner</li>
-                    </ul>
-                    <a href="https://app.learnrail.org" class="btn btn-primary btn-block">Start 3-Month Plan</a>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-header">
-                        <h3>Annual</h3>
-                        <div class="price">
-                            <span class="currency">N</span>
-                            <span class="amount">35,000</span>
-                            <span class="period">/year</span>
-                        </div>
-                        <span class="savings">Save 40%</span>
-                    </div>
-                    <ul class="pricing-features">
-                        <li><i class="fas fa-check"></i> Everything in Quarterly</li>
-                        <li><i class="fas fa-check"></i> Accountability partner</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                        <li><i class="fas fa-check"></i> Career coaching</li>
-                        <li><i class="fas fa-check"></i> Offline access</li>
-                        <li><i class="fas fa-check"></i> Custom learning paths</li>
-                    </ul>
-                    <a href="https://app.learnrail.org" class="btn btn-outline btn-block">Start Annual Plan</a>
-                </div>
+                <!-- Dynamic plans will be inserted after the free plan card -->
             </div>
         </div>
     </section>
